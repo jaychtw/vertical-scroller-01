@@ -2,6 +2,8 @@
 
 An original browser arcade adventure: a fifth grader, an oversized pencil case, and five alien-controlled school floors between him and the golden gate key.
 
+**[Play Jeremy’s Odyssey](https://jaychtw.github.io/vertical-scroller-01/)**
+
 This is a separate game in `jaychtw/vertical-scroller-01`. Formosa Quest was inspected as a read-only technical reference; its repository and artwork were not changed or incorporated.
 
 ## Play
