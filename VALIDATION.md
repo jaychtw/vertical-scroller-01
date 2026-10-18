@@ -62,3 +62,20 @@ The statement that two heavy hits defeat a six-HP Principal is a damage equivale
 ## Cloud reuse
 
 The complete frozen installation/check script and development startup/readiness instructions were saved in the environment configuration draft (`install_script` and `start_skill`). Snapshot publication remains a user action: review and save the environment settings, then publish the environment to make that setup reusable. Saving the draft did not publish or deploy the game.
+
+## Story-language update
+
+User-requested scope: centralize story/dialogue translations and provide an English / 繁體中文 toggle; keep the UI in English. The two opening cards, victory sentence and Game Over narrative now support `en` and `zh-TW`. New visits default to Traditional Chinese; a saved browser preference overrides that default. The exact original English narrative remains selectable. Restart confirmation, headings, HUD, controls, hints and replay prompts retain their original English text.
+
+The language preference is separate from game simulation state. Changing it updates the current story card or end-screen sentence without resetting progress or advancing a paused simulation. Full restarts preserve the selected language. Unavailable browser storage falls back to an in-memory preference. Noto Sans TC is bundled with its license, and Chinese wrapping keeps text within the dialogue area. A language-tagged live region exposes the narrative to screen readers.
+
+Executed checks for this update:
+
+- `npm run typecheck`: passed.
+- `npm test`: **33 passed** (27 existing game-rule tests plus 6 language/persistence/wrapping tests).
+- `npm run build`: passed, including bundled Traditional Chinese font assets.
+- `npm run test:browser`: **7 passed**, zero failed or skipped, using one browser worker (approximately six minutes with software rendering). This includes the existing five-floor route, real first-floor combat, Ralf, replay, focus loss and restart checks, plus three new language integration tests.
+- Production smoke under `/vertical-scroller-01/`: passed default Chinese, switching to English and back on the same story card, local fonts/assets, gameplay entry, and changing language during restart confirmation. No runtime or asset errors; no development simulation handle is exposed.
+- Visual review: Chinese opening and victory dialogue is legible and fits the existing presentation; English UI remains visible. Screenshots: `test-results/story-zh-TW.png`, `victory-zh-TW.png`, `story-production.png`.
+
+An initial parallel browser run exhausted a test timeout due to competing software-rendered browsers. The runner now serializes browser tests; the complete seven-test run passed without changing gameplay or weakening assertions. Firefox/Safari and independent human playtesting remain outside the verified scope.

@@ -32,7 +32,18 @@
       <div class="cabinet">
         <div class="cabinet-top">
           <span><i></i> JEREMY’S ODYSSEY</span
-          ><span>STORY MODE <b>•</b> 1 PLAYER</span>
+          ><span class="cabinet-actions"
+            ><button
+              id="story-language"
+              type="button"
+              aria-pressed="true"
+              aria-label="Story language: 繁體中文. Switch to English."
+              title="Story/dialogue language only"
+            >
+              <span lang="en">English</span> /
+              <span lang="zh-TW" class="is-current">繁體中文</span></button
+            ><span>STORY MODE <b>•</b> 1 PLAYER</span></span
+          >
         </div>
         <div
           id="game"
@@ -48,6 +59,7 @@
           >
         </div>
       </div>
+      <p id="story-message" class="sr-only" lang="zh-TW" aria-live="polite"></p>
       <footer>
         <div class="control"><kbd>←</kbd><kbd>→</kbd><span>MOVE</span></div>
         <div class="control">

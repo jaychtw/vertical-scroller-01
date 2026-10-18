@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import { C, TEXT, travelDirection } from "./config";
 import { GameModel } from "./model";
+import { StoryLanguage, STORY_FONT, wrapStoryText } from "./story";
 
 const FAMILY = '"Space Grotesk", "Trebuchet MS", sans-serif';
 const DISPLAY = '"Barlow Condensed", "Arial Narrow", sans-serif';
@@ -22,7 +23,10 @@ export class GameUI {
   private key: Phaser.GameObjects.Image;
   private gate: Phaser.GameObjects.Graphics;
   private previous = "";
-  constructor(private s: Phaser.Scene) {
+  constructor(
+    private s: Phaser.Scene,
+    private story: StoryLanguage,
+  ) {
     this.hud = s.add.container(0, 0).setScrollFactor(0).setDepth(100);
     const panel = s.add.graphics();
     panel.fillStyle(0x101e30, 0.96);
@@ -104,7 +108,32 @@ export class GameUI {
     this.overlay.add(obj);
     return obj;
   }
+  private storyText(text: string, size: number): string {
+    this.body.setFontSize(size);
+    return this.story.locale === "zh-TW"
+      ? wrapStoryText(
+          text,
+          (line) =>
+            this.body.context.measureText(line).width + Array.from(line).length,
+          800,
+        )
+      : text;
+  }
   update(m: GameModel) {
+    const narrative =
+      m.state === "OPENING"
+        ? this.story.messages.opening[m.opening < 4.6 ? 0 : 1]
+        : m.state === "VICTORY"
+          ? this.story.messages.victory
+          : m.state === "GAME_OVER"
+            ? this.story.messages.over
+            : "";
+    const mirror = document.getElementById("story-message")!;
+    if (mirror.textContent !== narrative) mirror.textContent = narrative;
+    mirror.lang = this.story.locale;
+    this.body.setFontFamily(
+      narrative && this.story.locale === "zh-TW" ? STORY_FONT : FAMILY,
+    );
     const roof = m.floor === 5;
     this.floor.setText(roof ? "ROOF" : `${m.floor + 1}F`);
     this.life.setText(String(m.lives).padStart(2, "0"));
@@ -214,7 +243,9 @@ export class GameUI {
       const page = m.opening < 4.6 ? 0 : 1;
       this.eyebrow.setText("AFTER HOURS  /  PROLOGUE");
       this.heading.setText("THE LOCKED GATE").setY(185).setFontSize(65);
-      this.body.setText(TEXT.opening[page]).setY(428).setFontSize(21);
+      this.body
+        .setText(this.storyText(this.story.messages.opening[page], 21))
+        .setY(428);
       this.prompt
         .setText(
           page === 0
@@ -261,12 +292,14 @@ export class GameUI {
       } else if (m.state === "GAME_OVER") {
         this.eyebrow.setText("THE SIGNAL PREVAILS");
         this.heading.setText("GAME OVER");
-        this.body.setText(TEXT.over);
+        this.body.setText(this.storyText(this.story.messages.over, 23));
         this.prompt.setText("Press R to try again.");
       } else {
         this.eyebrow.setText("THE SIGNAL IS BROKEN");
         this.heading.setText("HOME IS CALLING").setY(192).setFontSize(64);
-        this.body.setText(TEXT.victory).setY(424);
+        this.body
+          .setText(this.storyText(this.story.messages.victory, 23))
+          .setY(424);
         this.prompt.setText("Press R to play again.");
         this.key.setY(343 + Math.sin(m.time * 2) * 4);
       }

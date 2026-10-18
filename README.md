@@ -29,6 +29,12 @@ Vite serves the game on port 5173 and binds to `0.0.0.0` for cloud development. 
 
 At Game Over or Victory, one fresh R press restarts. Opening and floor transitions receive the same two-press protection as gameplay. Focus loss releases movement inputs and pauses into restart confirmation; Esc resumes. Keyboard auto-repeat cannot confirm a restart.
 
+## Story language
+
+Use **English / 繁體中文** above the game to switch the story/dialogue language instantly. New visits default to **zh-TW (Traditional Chinese)**; your browser remembers your selection. The two opening messages, victory sentence, and Game Over story sentence are translated. HUD, headings, controls, instructions, restart confirmation, and replay prompts remain in English. Switching languages preserves the current story card, gameplay progress, and paused state.
+
+Translations are centralized in `src/game/story.ts`. The bundled Noto Sans TC font supports Traditional Chinese without external font services; its license is included in `public/licenses/`.
+
 ## Rules
 
 Four brats arrive one second apart after visible spawn cues. Clear them to summon a two-HP teacher. A teacher defeat grants one life once per floor and unlocks its ladder. Jeremy starts with one life; five clean floors yield six lives on the roof. Contact consumes one life; surviving resets only the current floor encounter, preserving charge and prior rewards. Ralf has six HP and telegraphs a leap every three seconds.
@@ -43,6 +49,7 @@ Jabs deal one damage, outrange contact, and only hit in the facing direction. A 
 - `src/game/types.ts`: shared state and entity definitions.
 - `src/game/art.ts`: original integer-drawn pixel character frames and layered school / skyline textures.
 - `src/game/scene.ts`: Phaser rendering, keyboard lifecycle, camera application and visual feedback. No scene recreation is needed for restarts.
+- `src/game/story.ts`: English / zh-TW narrative copy, saved story-language preference and Chinese line wrapping.
 - `src/game/ui.ts`: screen-fixed HUD, opening gate, exact confirmation and end screens.
 - `src/game/audio.ts`: original synthesized effects, enabled by a user gesture.
 - `src/game/model.test.ts`: deterministic game-rule acceptance tests.
@@ -71,7 +78,6 @@ The browser suite uses installed Chromium in this cloud machine. On another mach
 The original supplied specification is preserved in [docs/GDD-v1.md](docs/GDD-v1.md).
 
 See [VALIDATION.md](VALIDATION.md) for the acceptance checklist, playtest scope, and known limitations.
-
 
 ## Publish on GitHub Pages
 

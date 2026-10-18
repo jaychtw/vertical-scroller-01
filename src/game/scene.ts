@@ -4,6 +4,7 @@ import { createTextures, SchoolArt } from "./art";
 import { GameModel, type Input, type Effect, enemyHeight } from "./model";
 import { GameUI } from "./ui";
 import { GameAudio } from "./audio";
+import { StoryLanguage } from "./story";
 
 interface Visual {
   sprite: Phaser.GameObjects.Image;
@@ -16,6 +17,7 @@ interface FX extends Effect {
 export class OdysseyScene extends Phaser.Scene {
   model = new GameModel();
   audio = new GameAudio();
+  readonly story = new StoryLanguage();
   private school!: SchoolArt;
   private ui!: GameUI;
   private player!: Visual;
@@ -45,7 +47,7 @@ export class OdysseyScene extends Phaser.Scene {
       .setRoundPixels(true);
     this.player = this.visual("jeremy-idle-0", 0.76);
     this.fx = this.add.graphics().setDepth(30);
-    this.ui = new GameUI(this);
+    this.ui = new GameUI(this, this.story);
     const gameElement = document.getElementById("game")!;
     const down = (event: KeyboardEvent) => {
       if (
@@ -105,12 +107,37 @@ export class OdysseyScene extends Phaser.Scene {
       focus();
     };
     soundButton.addEventListener("click", sound);
+    const languageButton = document.getElementById("story-language")!;
+    const showLanguage = () => {
+      const chinese = this.story.locale === "zh-TW";
+      languageButton.setAttribute("aria-pressed", String(chinese));
+      languageButton.setAttribute(
+        "aria-label",
+        `Story language: ${chinese ? "繁體中文" : "English"}. Switch to ${chinese ? "English" : "繁體中文"}.`,
+      );
+      for (const option of Array.from(
+        languageButton.querySelectorAll<HTMLElement>("[lang]"),
+      )) {
+        option.classList.toggle(
+          "is-current",
+          option.lang === this.story.locale,
+        );
+      }
+    };
+    const changeLanguage = () => {
+      this.story.toggle();
+      showLanguage();
+      focus();
+    };
+    showLanguage();
+    languageButton.addEventListener("click", changeLanguage);
     this.events.once("shutdown", () => {
       window.removeEventListener("keydown", down);
       window.removeEventListener("keyup", up);
       window.removeEventListener("blur", blur);
       gameElement.removeEventListener("pointerdown", focus);
       soundButton.removeEventListener("click", sound);
+      languageButton.removeEventListener("click", changeLanguage);
     });
     focus();
     if (

@@ -1,3 +1,5 @@
+import { STORY_MESSAGES } from "./story";
+
 export const C = {
   width: 1280,
   height: 720,
@@ -44,12 +46,8 @@ export const travelDirection = (floor: number): -1 | 1 =>
   floor % 2 === 0 ? 1 : -1;
 export const entryX = (floor: number) => (floor % 2 === 0 ? C.left : C.right);
 export const exitX = (floor: number) => (floor % 2 === 0 ? C.right : C.left);
+// Preserve the original English copy contract for rule tests and untranslated UI.
 export const TEXT = {
-  opening: [
-    "The gate is locked. You need the key to get out. Principal Ralf got the key, and he's on the rooftop.",
-    "Go, Jeremy. Go get the key, and go home.",
-  ],
+  ...STORY_MESSAGES.en,
   confirm: "Pressing R restarts the game. Press R again if you're sure.",
-  victory: "You got the key. Now, you can go home, Jeremy.",
-  over: "Jeremy couldn't escape the school.",
 };
