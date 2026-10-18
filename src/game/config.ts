@@ -1,0 +1,55 @@
+export const C = {
+  width: 1280,
+  height: 720,
+  worldWidth: 2400,
+  band: 720,
+  floors: 6,
+  worldHeight: 4320,
+  groundOffset: 602,
+  left: 120,
+  right: 2280,
+  playerSpeed: 300,
+  jumpSpeed: 610,
+  gravity: 1700,
+  jumpCut: 245,
+  coyote: 0.11,
+  jumpBuffer: 0.13,
+  jabCooldown: 0.32,
+  jabDuration: 0.16,
+  jabReach: 106,
+  jabHeight: 92,
+  playerHalfWidth: 18,
+  playerHeight: 76,
+  bratSpeed: 91,
+  teacherSpeed: 69,
+  spawnInterval: 1,
+  spawnCue: 0.55,
+  spawnDistance: 440,
+  spawnMin: 280,
+  arrival: 0.7,
+  climbDuration: 2.1,
+  projectileSpeed: 780,
+  projectileLife: 2.6,
+  projectileWidth: 98,
+  bossPeriod: 3,
+  bossTelegraph: 0.5,
+  bossFlight: 1.85,
+  bossHeight: 246,
+  cameraSmooth: 6,
+  deadzone: 110,
+  roofMargin: 220,
+} as const;
+export const floorY = (floor: number) => (5 - floor) * C.band + C.groundOffset;
+export const travelDirection = (floor: number): -1 | 1 =>
+  floor % 2 === 0 ? 1 : -1;
+export const entryX = (floor: number) => (floor % 2 === 0 ? C.left : C.right);
+export const exitX = (floor: number) => (floor % 2 === 0 ? C.right : C.left);
+export const TEXT = {
+  opening: [
+    "The gate is locked. You need the key to get out. Principal Ralf got the key, and he's on the rooftop.",
+    "Go, Jeremy. Go get the key, and go home.",
+  ],
+  confirm: "Pressing R restarts the game. Press R again if you're sure.",
+  victory: "You got the key. Now, you can go home, Jeremy.",
+  over: "Jeremy couldn't escape the school.",
+};

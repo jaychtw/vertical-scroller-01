@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#101b2c" />
+    <meta
+      name="description"
+      content="One school. Five floors. One way home. An original arcade adventure."
+    />
+    <title>Jeremy's Odyssey</title>
+  </head>
+  <body>
+    <main id="app">
+      <header>
+        <a class="brand" href="./" aria-label="Jeremy's Odyssey home"
+          ><span class="emblem">J<span>O</span></span
+          ><span>AFTER HOURS <b>ARCADE</b></span></a
+        ><span class="edition">NO. 001 <i></i> AN ORIGINAL ADVENTURE</span>
+      </header>
+      <section class="title-row">
+        <div>
+          <p class="eyebrow">THE LAST BELL WAS ONLY THE BEGINNING</p>
+          <h1>Jeremy’s <span>Odyssey</span></h1>
+        </div>
+        <div class="mission">
+          <span class="status-dot"></span> ONE SCHOOL. FIVE FLOORS.<br /><strong
+            >ONE WAY HOME.</strong
+          >
+        </div>
+      </section>
+      <div class="cabinet">
+        <div class="cabinet-top">
+          <span><i></i> JEREMY’S ODYSSEY</span
+          ><span>STORY MODE <b>•</b> 1 PLAYER</span>
+        </div>
+        <div
+          id="game"
+          tabindex="0"
+          role="application"
+          aria-label="Jeremy's Odyssey. Arrow keys move, Up or Space jumps, Z jabs, X fires a charged pencil case. R restarts with confirmation."
+        ></div>
+        <div class="cabinet-bottom">
+          <span>FIELD TRIP: <b>AFTER DARK</b></span
+          ><span
+            >FIND RALF. GET THE KEY. GO HOME.
+            <span class="tiny-key">⚿</span></span
+          >
+        </div>
+      </div>
+      <footer>
+        <div class="control"><kbd>←</kbd><kbd>→</kbd><span>MOVE</span></div>
+        <div class="control">
+          <kbd>↑</kbd><kbd>SPACE</kbd><span>JUMP / CLIMB ↑</span>
+        </div>
+        <div class="control"><kbd>Z</kbd><span>JAB</span></div>
+        <div class="control">
+          <kbd>X</kbd><span>HEAVY <small>3 HITS TO CHARGE</small></span>
+        </div>
+        <div class="control restart">
+          <kbd>R</kbd><span>RESTART <small>ESC TO CANCEL</small></span>
+        </div>
+      </footer>
+      <p class="footnote">
+        A pencil case. A little courage. A very long way to the roof.<span
+          >DESIGNED FOR KEYBOARD · AUDIO OPTIONAL
+          <button id="sound" aria-pressed="false">SOUND OFF</button></span
+        >
+      </p>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
