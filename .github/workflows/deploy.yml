@@ -1,0 +1,63 @@
+name: Deploy game to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Validate game
+        run: |
+          npm run typecheck
+          npm test
+          npm run build
+      - name: Install browser
+        run: npx playwright install --with-deps chromium
+      - name: Run browser acceptance tests
+        run: npm run test:browser
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: Upload production build
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+      - name: Upload browser results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pages-browser-results
+          path: test-results/
+          if-no-files-found: ignore
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

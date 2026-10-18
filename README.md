@@ -69,3 +69,17 @@ The browser suite uses installed Chromium in this cloud machine. On another mach
 The original supplied specification is preserved in [docs/GDD-v1.md](docs/GDD-v1.md).
 
 See [VALIDATION.md](VALIDATION.md) for the acceptance checklist, playtest scope, and known limitations.
+
+
+## Publish on GitHub Pages
+
+The deployment workflow builds and validates the game, uploads `dist/`, and publishes it through GitHub Pages after a push to `main`. It can also be started manually.
+
+One-time repository setup:
+
+1. Open **Settings → Pages** in `jaychtw/vertical-scroller-01`.
+2. Under **Build and deployment → Source**, select **GitHub Actions**.
+3. Open **Actions → Deploy game to GitHub Pages**. If the first run failed before Pages was enabled, use **Re-run all jobs**, or **Run workflow** on `main`.
+4. Wait for the build and deploy jobs to finish successfully.
+
+The published game will be at **https://jaychtw.github.io/vertical-scroller-01/**. The link becomes available after deployment succeeds. Future pushes to `main` update the site automatically. Vite's relative asset base supports this repository subdirectory without changing the tested game.
